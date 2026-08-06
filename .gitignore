@@ -1,0 +1,5 @@
+.DS_Store
+.pio/
+.pio-venv/
+__pycache__/
+*.ino.cpp
