@@ -6,22 +6,31 @@
  *  ESP32Async - ESP Async WebServer@3.11.2
  *  IRremote by shirriff, z3t0, ArminJo v4.7.1
  *
+ * These are pinned in platformio.ini for `python3 flash.py master` builds.
+ * The sketches need the ESP32 Arduino core 3.x API (<NetworkUdp.h>); the
+ * PlatformIO build pulls core 3.x from the pioarduino platform.
+ *
  * MASTER ESP32 - connects to its own light's WiFi network, controls that
  * light directly (same protocol as the original app), forwards every
  * command over a wired UART link to the slave board (which relays it to
- * the second light), and hosts a mobile-first match-control web UI at
- * http://arena.local/.
+ * the second light), and hosts a mobile-first match-control web UI.
  */
 
 #include <Arduino.h>
 #include <WiFi.h>
 #include <NetworkUdp.h>
-#include <ESPmDNS.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
 #include <IRremote.hpp>
 #include "arena_ui.h"
+
+// Forward declarations so the PlatformIO/Arduino-IDE automatic
+// function-prototype generators can resolve these types: they are defined
+// further down in this file, inside their own namespaces, but the
+// generated prototypes are emitted at the top of the file.
+namespace arena { struct Snapshot; }
+namespace display { enum Button : uint8_t; }
 
 // ---------------------------------------------------------------------
 // WiFi credentials
@@ -57,6 +66,12 @@ AsyncWebSocket ws("/ws");
 // LED protocol
 // ---------------------------------------------------------------------
 namespace led {
+
+// See the forward declarations at the top of this file. The prototype
+// generators hoist function declarations to this point, and these bring
+// the namespaced types into scope so those hoisted declarations compile.
+using arena::Snapshot;
+using display::Button;
 
 constexpr uint8_t HEADER[7] = {0x4C, 0x54, 0x09, 0x00, 0x30, 0x57, 0x00};
 constexpr uint8_t FIXED_MID = 0x01;
@@ -562,13 +577,6 @@ void startArenaServer() {
   if (arenaServerStarted) return;
   arenaServerStarted = true;
 
-  if (!MDNS.begin("arena")) {
-    Serial.println("mDNS init failed - use IP instead");
-  } else {
-    MDNS.addService("http", "tcp", 80);
-    Serial.println("mDNS responder started: http://arena.local/");
-  }
-
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send_P(200, "text/html", INDEX_HTML);
   });
@@ -626,7 +634,7 @@ void startArenaServer() {
 // DC quiescent point. Loudness is measured as the peak-to-peak swing of
 // the ADC samples over a rolling window - the same AMP value printed by
 // the sound_sensor_test sketch. During a Match the lights sit at a
-// default 50% white; any sound above the threshold snaps them to a
+// default 100% white; any sound above the threshold snaps them to a
 // full-brightness red/blue flash for at least FLASH_HOLD_MS.
 namespace mic {
 
@@ -637,7 +645,7 @@ constexpr int HIT_THRESHOLD = 60;         // amplitude that counts as a hit
 constexpr unsigned long FLASH_HOLD_MS = 50; // minimum flash duration
 
 // Default (quiet) look for the Match phase.
-constexpr int DEFAULT_BRIGHTNESS = 50;
+constexpr int DEFAULT_BRIGHTNESS = 100;
 
 int minVal = 4095;
 int maxVal = 0;
@@ -739,7 +747,7 @@ void updateLightingForPhase(const arena::Snapshot &snap) {
       break;
 
     case arena::Phase::Match:
-      // Default look: 50% white. processMicBrightness() snaps to a
+      // Default look: 100% white. processMicBrightness() snaps to a
       // red/blue 100% flash on loud sounds.
       lightState.micFlashActive = false;
       lightState.micLastHitMs = 0;
@@ -869,7 +877,7 @@ void processLightingAnimations(unsigned long countdownRemainingMs) {
   }
 }
 
-// Drives the Match-phase lights from the mic: quiet => default 50% white
+// Drives the Match-phase lights from the mic: quiet => default 100% white
 // at 4500K; any hit snaps to a full-brightness red/blue flash held for at
 // least FLASH_HOLD_MS (retriggered by sustained sound, no gradient).
 void processMicBrightness() {
