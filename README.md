@@ -1,7 +1,6 @@
 # Coliseum Combat Arena LEDs
 
 <img src="arena_photo.png" alt="Photo of the arena" style="max-height: 400px; width: auto; display: block;">
-<br/>
 
 The [STEM Coliseum](https://stemcoliseum.org) (where I worked full-time over the summer) runs open antweight combat robotics events, and I thought arena LED effects would make the matches more interesting. The hardware for this project was almost entirely what we had laying around the facility, and if I were to make a more general solution, I wouldn't use Wi-Fi-enabled LEDs.
 
