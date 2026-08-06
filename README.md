@@ -64,8 +64,8 @@ The master's UART2 connects to the slave's: master TX (GPIO17) → slave RX (GPI
 
 1. Connect to the `COMBAT_LED` network on your phone (password `gvm_admin`).
 2. Load the web UI.
-    > [!TIP]
-    > If it's not loading, try disabling your mobile data. Your phone might have realised the `COMBAT_LED` network doesn't have access to WAN, and might be trying to resolve the IP through mobile data.
+> [!TIP]
+> If it's not loading, try disabling your mobile data. Your phone might have realised the `COMBAT_LED` network doesn't have access to WAN, and might be trying to resolve the IP through mobile data.
 3. Continue through the phases of the match. When you finish one match, it cycles back and is ready for another.
 
 ## How to modify it?
