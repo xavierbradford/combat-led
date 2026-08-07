@@ -235,7 +235,7 @@ def ui_phase(phase, f, N):
 
 def save_comb(name, frames, dur=50):
     frames = _quantize_frames(frames)
-    frames[0].save(f"gifs/{name}", save_all=True, append_images=frames[1:], duration=dur, loop=0)
+    frames[0].save(name, save_all=True, append_images=frames[1:], duration=dur, loop=0)
     print(name, len(frames), "frames")
 
 def full_composite(led, timer, ui):
