@@ -1,6 +1,6 @@
 # Combat Robotics Arena Lighting
 
-<img src="images/arena_photo.png" alt="Photo of the arena" style="max-height: 400px; width: auto; display: block;">
+<img src="assets/arena_photo.png" alt="Photo of the arena" style="max-height: 400px; width: auto; display: block;">
 
 The [STEM Coliseum](https://stemcoliseum.org) — where I worked full-time over the summer — runs open antweight combat robotics events, and I thought arena LED effects would make the matches more interesting. The hardware was almost entirely whatever we had lying around the facility, so the choices are unconventional.
 
@@ -18,16 +18,16 @@ I tried to use AI to streamline the development of this project and was surprise
 
 | Phase | Light & Timer State | Rendering |
 | --- | --- | --- |
-| Ready | Red (master) / blue (slave); timer powered on, stopwatch | ![Ready](images/combined_ready.gif) |
-| Countdown | Red/blue, flashing and fading each second; 3·2·1 countdown | ![Countdown](images/combined_countdown.gif) |
-| Match | 100% white, flashing on robot impact; running stopwatch (2 min) | ![Match](images/combined_match.gif) |
-| Judging | Red/blue "breathing" alternately; timer off | ![Judging](images/combined_judging.gif) |
-| Winner Announcement | Alternating, strobe, then hold winner colour; timer off | ![Winner Announcement](images/combined_announcement.gif) |
-| Arena Cleanup | White, full brightness; timer off | ![Arena Cleanup](images/combined_cleanup.gif) |
+| Ready | Red (master) / blue (slave); timer powered on, stopwatch | ![Ready](assets/combined_ready.gif) |
+| Countdown | Red/blue, flashing and fading each second; 3·2·1 countdown | ![Countdown](assets/combined_countdown.gif) |
+| Match | 100% white, flashing on robot impact; running stopwatch (2 min) | ![Match](assets/combined_match.gif) |
+| Judging | Red/blue "breathing" alternately; timer off | ![Judging](assets/combined_judging.gif) |
+| Winner Announcement | Alternating, strobe, then hold winner colour; timer off | ![Winner Announcement](assets/combined_announcement.gif) |
+| Arena Cleanup | White, full brightness; timer off | ![Arena Cleanup](assets/combined_cleanup.gif) |
 
 The board boots straight into the Ready phase; after a match it cycles through Arena Cleanup and back to Ready.
 
-![Match phase diagram with transitions](images/match_phases.svg)
+![Match phase diagram with transitions](assets/match_phases.svg)
 
 ## Hardware
 
@@ -40,7 +40,7 @@ The board boots straight into the Ready phase; after a match it cycles through A
 
 The left ESP32 is the master, connected to the microphone, IR transmitter, and (over Wi-Fi) one of the LEDs. The right ESP32 is the slave, connected to the other LED on its separate Wi-Fi network, and receives commands from the master over a serial port.
 
-![Circuit diagram](images/circuit_diagram.png)
+![Circuit diagram](assets/circuit_diagram.png)
 
 The master's UART2 connects to the slave's: master TX (GPIO17) → slave RX (GPIO16), master RX (GPIO16) ← slave TX (GPIO17), with a common GND.
 
