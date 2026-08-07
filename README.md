@@ -16,14 +16,14 @@ I tried to use AI to streamline the development of this project and was surprise
 
 ## Match phases
 
-| Phase | Light State | Timer State | Rendering |
-| --- | --- | --- | --- |
-| Ready | Red (master) / blue (slave) | powered on, stopwatch | ![Ready](images/combined_ready.gif) |
-| Countdown | Red/blue, flashing and fading each second | 3·2·1 countdown | ![Countdown](images/combined_countdown.gif) |
-| Match | 100% white, flashing on robot impact | running stopwatch (2 min) | ![Match](images/combined_match.gif) |
-| Judging | Red/blue "breathing" alternately | off | ![Judging](images/combined_judging.gif) |
-| Winner Announcement | Alternating, strobe, then hold winner colour | off | ![Winner Announcement](images/combined_announcement.gif) |
-| Arena Cleanup | White, full brightness | off | ![Arena Cleanup](images/combined_cleanup.gif) |
+| Phase | Light & Timer State | Rendering |
+| --- | --- | --- |
+| Ready | Red (master) / blue (slave); timer powered on, stopwatch | ![Ready](images/combined_ready.gif) |
+| Countdown | Red/blue, flashing and fading each second; 3·2·1 countdown | ![Countdown](images/combined_countdown.gif) |
+| Match | 100% white, flashing on robot impact; running stopwatch (2 min) | ![Match](images/combined_match.gif) |
+| Judging | Red/blue "breathing" alternately; timer off | ![Judging](images/combined_judging.gif) |
+| Winner Announcement | Alternating, strobe, then hold winner colour; timer off | ![Winner Announcement](images/combined_announcement.gif) |
+| Arena Cleanup | White, full brightness; timer off | ![Arena Cleanup](images/combined_cleanup.gif) |
 
 The board boots straight into the Ready phase; after a match it cycles through Arena Cleanup and back to Ready.
 
